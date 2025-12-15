@@ -1,0 +1,2379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GamePulse | Premium Gaming Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary: #FF4655;
+            --primary-dark: #D32F3C;
+            --secondary: #0F1923;
+            --accent: #00FF9D;
+            --accent-dark: #00CC7D;
+            --dark: #0A0E12;
+            --darker: #07090D;
+            --light: #ECE8E1;
+            --gray: #1F252D;
+            --gray-light: #2D3540;
+            --gradient-primary: linear-gradient(135deg, var(--primary), var(--accent));
+            --gradient-dark: linear-gradient(135deg, var(--secondary), var(--dark));
+            --gradient-accent: linear-gradient(135deg, var(--accent), #00E0FF);
+            --shadow-lg: 0 25px 50px rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 15px 30px rgba(0, 0, 0, 0.4);
+            --shadow-sm: 0 8px 16px rgba(0, 0, 0, 0.3);
+            --border-radius: 20px;
+            --border-radius-sm: 12px;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        section {
+            padding: 120px 0;
+            position: relative;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 14px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--darker);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-primary);
+            border-radius: 7px;
+            border: 3px solid var(--darker);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--darker);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .pulse-logo {
+            font-size: 4rem;
+            font-weight: 900;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .pulse-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        .loader {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 4px solid transparent;
+            border-top-color: var(--primary);
+            border-bottom-color: var(--accent);
+            animation: spin 1.5s linear infinite;
+        }
+
+        .loading-text {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: var(--light);
+            letter-spacing: 2px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Particles Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: var(--transition);
+            background: rgba(10, 14, 18, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 70, 85, 0.2);
+        }
+
+        header.scrolled {
+            padding: 15px 0;
+            box-shadow: var(--shadow-lg);
+            background: rgba(10, 14, 18, 0.98);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 55px;
+            height: 55px;
+            background: var(--gradient-primary);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text h1 {
+            font-size: 32px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+
+        .logo-text span {
+            font-size: 12px;
+            color: var(--accent);
+            letter-spacing: 3px;
+            font-weight: 600;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            position: relative;
+            padding: 8px 0;
+            transition: var(--transition);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent);
+        }
+
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Authentication Buttons */
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-auth {
+            padding: 12px 30px;
+            border-radius: var(--border-radius-sm);
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid transparent;
+        }
+
+        .btn-login {
+            background: transparent;
+            color: var(--light);
+            border-color: var(--gray-light);
+        }
+
+        .btn-login:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .btn-signup {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .btn-signup:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 70, 85, 0.4);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 26px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .mobile-menu-btn:hover {
+            color: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 200px;
+            background: radial-gradient(circle at 20% 30%, rgba(255, 70, 85, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(0, 255, 157, 0.1) 0%, transparent 50%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .hero-text h2 {
+            font-size: 5rem;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, var(--light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-text h2 span {
+            color: var(--primary);
+            -webkit-text-fill-color: var(--primary);
+        }
+
+        .hero-text p {
+            font-size: 1.3rem;
+            color: rgba(236, 232, 225, 0.8);
+            margin-bottom: 40px;
+            max-width: 600px;
+            font-weight: 500;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(236, 232, 225, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 10px;
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .platform-visual {
+            position: relative;
+            background: var(--gradient-dark);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--shadow-lg);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            border: 1px solid rgba(255, 70, 85, 0.2);
+        }
+
+        .screen {
+            width: 100%;
+            height: 320px;
+            background: linear-gradient(135deg, #141A22, #0C1016);
+            border-radius: var(--border-radius-sm);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .screen-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 25px;
+        }
+
+        .game-mini-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .game-mini-card:hover {
+            background: rgba(255, 70, 85, 0.1);
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .download-badges {
+            display: flex;
+            gap: 20px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .download-badge {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+            min-width: 220px;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .download-badge:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .badge-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .badge-text h4 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .badge-text p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Social Media Bar */
+        .social-bar {
+            position: fixed;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 99;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            transition: var(--transition);
+            position: relative;
+            background: var(--gray);
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px) scale(1.1);
+        }
+
+        .social-link.youtube {
+            background: linear-gradient(135deg, #FF0000, #CC0000);
+        }
+
+        .social-link.instagram {
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+        }
+
+        .social-link.facebook {
+            background: linear-gradient(135deg, #1877F2, #0D5DB6);
+        }
+
+        .social-link.tiktok {
+            background: linear-gradient(135deg, #000000, #25F4EE, #FE2C55);
+        }
+
+        .social-link.twitter {
+            background: linear-gradient(135deg, #1DA1F2, #0D8BD9);
+        }
+
+        .social-link.discord {
+            background: linear-gradient(135deg, #5865F2, #4752C4);
+        }
+
+        .social-tooltip {
+            position: absolute;
+            left: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--secondary);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            border-left: 3px solid var(--primary);
+        }
+
+        .social-link:hover .social-tooltip {
+            opacity: 1;
+            visibility: visible;
+            left: 70px;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 18px 40px;
+            border-radius: var(--border-radius-sm);
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: var(--transition);
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 70, 85, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 255, 157, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 255, 157, 0.2);
+        }
+
+        .btn-accent {
+            background: var(--gradient-accent);
+            color: var(--secondary);
+        }
+
+        /* Authentication Modal */
+        .auth-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .auth-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .auth-container {
+            background: var(--gradient-dark);
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 500px;
+            padding: 50px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            border: 1px solid rgba(255, 70, 85, 0.3);
+            transform: translateY(50px);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .auth-modal.active .auth-container {
+            transform: translateY(0);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: transparent;
+            border: none;
+            color: var(--light);
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            color: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--gray);
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            color: var(--light);
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .auth-tab.active {
+            color: var(--primary);
+        }
+
+        .auth-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-primary);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--light);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--gray);
+            border-radius: var(--border-radius-sm);
+            color: var(--light);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 70, 85, 0.2);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .forgot-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .forgot-link:hover {
+            color: var(--primary);
+        }
+
+        .auth-divider {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .auth-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 45%;
+            height: 1px;
+            background: var(--gray);
+        }
+
+        .auth-divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 45%;
+            height: 1px;
+            background: var(--gray);
+        }
+
+        .auth-divider span {
+            background: var(--secondary);
+            padding: 0 15px;
+            color: var(--light);
+            font-size: 14px;
+        }
+
+        .social-auth {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .btn-social {
+            padding: 15px;
+            border-radius: var(--border-radius-sm);
+            border: 2px solid var(--gray);
+            background: transparent;
+            color: var(--light);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-social:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .form-footer a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .form-footer a:hover {
+            color: var(--primary);
+        }
+
+        /* Games Section */
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            color: rgba(236, 232, 225, 0.7);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .games-filter {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 14px 32px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: transparent;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 35px;
+            margin-bottom: 60px;
+        }
+
+        .game-card {
+            background: var(--gradient-dark);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .game-card:hover {
+            transform: translateY(-20px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .game-card-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gradient-accent);
+            color: var(--secondary);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 800;
+            z-index: 2;
+        }
+
+        .game-card-header {
+            height: 220px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+        }
+
+        .game-card:hover .game-card-img {
+            transform: scale(1.1);
+        }
+
+        .game-card-body {
+            padding: 30px;
+        }
+
+        .game-card-title {
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .game-card-price {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .game-card-desc {
+            color: rgba(236, 232, 225, 0.7);
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        .game-card-tags {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .game-tag {
+            background: rgba(255, 70, 85, 0.2);
+            color: var(--accent);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .game-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .game-rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .btn-game {
+            padding: 12px 28px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: var(--border-radius-sm);
+            text-decoration: none;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+
+        .btn-game:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 70, 85, 0.3);
+        }
+
+        /* Features Section */
+        .features {
+            background: rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            background: var(--gradient-dark);
+            padding: 45px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        .feature-title {
+            font-size: 1.7rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-desc {
+            color: rgba(236, 232, 225, 0.7);
+            margin-bottom: 30px;
+        }
+
+        .feature-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: var(--transition);
+        }
+
+        .feature-link:hover {
+            gap: 18px;
+            color: var(--primary);
+        }
+
+        /* Pricing Section */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+        }
+
+        .pricing-card {
+            background: var(--gradient-dark);
+            border-radius: var(--border-radius);
+            padding: 45px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .pricing-card.popular {
+            border: 2px solid var(--primary);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.popular:hover {
+            transform: scale(1.05) translateY(-15px);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-primary);
+            color: white;
+            padding: 10px 30px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .pricing-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .pricing-price {
+            font-size: 4rem;
+            font-weight: 900;
+            margin: 30px 0;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .pricing-features li i {
+            color: var(--accent);
+        }
+
+        /* Community Section */
+        .community-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 35px;
+            margin-bottom: 80px;
+        }
+
+        .stat-card {
+            background: var(--gradient-dark);
+            border-radius: var(--border-radius);
+            padding: 45px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-card i {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            padding-top: 120px;
+            margin-top: 100px;
+            position: relative;
+            border-top: 1px solid rgba(255, 70, 85, 0.2);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1.5fr repeat(4, 1fr);
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-logo {
+            margin-bottom: 30px;
+        }
+
+        .footer-desc {
+            color: rgba(236, 232, 225, 0.7);
+            margin-bottom: 35px;
+            line-height: 1.8;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.4rem;
+            margin-bottom: 35px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 18px;
+        }
+
+        .footer-links a {
+            color: rgba(236, 232, 225, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 8px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(236, 232, 225, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 55px;
+            height: 55px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-8px) scale(1.1);
+            box-shadow: 0 15px 30px rgba(255, 70, 85, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 70px;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .social-bar {
+                left: 15px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            nav ul {
+                position: fixed;
+                top: 90px;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 14, 18, 0.98);
+                backdrop-filter: blur(15px);
+                flex-direction: column;
+                padding: 40px;
+                gap: 30px;
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: var(--transition);
+                border-bottom: 1px solid rgba(255, 70, 85, 0.2);
+                z-index: 999;
+            }
+
+            nav ul.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-text h2 {
+                font-size: 4rem;
+            }
+
+            .section-title {
+                font-size: 3.2rem;
+            }
+            
+            .social-bar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            section {
+                padding: 100px 0;
+            }
+
+            .hero-text h2 {
+                font-size: 3.2rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .section-title {
+                font-size: 2.8rem;
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .auth-container {
+                padding: 40px 30px;
+                margin: 0 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-text h2 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2.3rem;
+            }
+
+            .btn {
+                padding: 16px 32px;
+            }
+
+            .features-grid, .games-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-actions {
+                gap: 10px;
+            }
+            
+            .btn-auth {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .logo-text h1 {
+                font-size: 26px;
+            }
+            
+            .logo-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="pulse-logo">GamePulse</div>
+        <div class="loader"></div>
+        <div class="loading-text">LOADING GAMING UNIVERSE...</div>
+    </div>
+
+    <!-- Social Media Bar -->
+    <div class="social-bar">
+        <a href="https://youtube.com" target="_blank" class="social-link youtube">
+            <i class="fab fa-youtube"></i>
+            <span class="social-tooltip">YouTube</span>
+        </a>
+        <a href="https://instagram.com" target="_blank" class="social-link instagram">
+            <i class="fab fa-instagram"></i>
+            <span class="social-tooltip">Instagram</span>
+        </a>
+        <a href="https://facebook.com" target="_blank" class="social-link facebook">
+            <i class="fab fa-facebook-f"></i>
+            <span class="social-tooltip">Facebook</span>
+        </a>
+        <a href="https://tiktok.com" target="_blank" class="social-link tiktok">
+            <i class="fab fa-tiktok"></i>
+            <span class="social-tooltip">TikTok</span>
+        </a>
+        <a href="https://twitter.com" target="_blank" class="social-link twitter">
+            <i class="fab fa-twitter"></i>
+            <span class="social-tooltip">Twitter</span>
+        </a>
+        <a href="https://discord.com" target="_blank" class="social-link discord">
+            <i class="fab fa-discord"></i>
+            <span class="social-tooltip">Discord</span>
+        </a>
+    </div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>GamePulse</h1>
+                        <span>ULTIMATE GAMING</span>
+                    </div>
+                </div>
+
+                <nav>
+                    <ul id="nav-menu">
+                        <li><a href="#home" class="active">Home</a></li>
+                        <li><a href="#games">Games</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#pricing">Premium</a></li>
+                        <li><a href="#community">Community</a></li>
+                        <li><a href="#streams">Live Streams</a></li>
+                        <li><a href="#download">Download</a></li>
+                    </ul>
+                    <button class="mobile-menu-btn" id="mobile-menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </nav>
+
+                <div class="header-actions">
+                    <div class="auth-buttons">
+                        <button class="btn-auth btn-login" id="open-login">
+                            <i class="fas fa-sign-in-alt"></i> Log In
+                        </button>
+                        <button class="btn-auth btn-signup" id="open-signup">
+                            <i class="fas fa-user-plus"></i> Sign Up
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Authentication Modal -->
+    <div class="auth-modal" id="auth-modal">
+        <div class="auth-container">
+            <button class="close-modal" id="close-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Log In</button>
+                <button class="auth-tab" data-tab="signup">Sign Up</button>
+            </div>
+            
+            <!-- Login Form -->
+            <form class="auth-form active" id="login-form">
+                <div class="form-group">
+                    <label class="form-label" for="login-email">Email Address</label>
+                    <input type="email" id="login-email" class="form-input" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="login-password">Password</label>
+                    <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required>
+                </div>
+                
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="remember-me">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="forgot-link">Forgot password?</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                    <i class="fas fa-sign-in-alt"></i> Log In to GamePulse
+                </button>
+                
+                <div class="auth-divider">
+                    <span>Or continue with</span>
+                </div>
+                
+                <div class="social-auth">
+                    <button type="button" class="btn-social">
+                        <i class="fab fa-google" style="color: #DB4437;"></i> Continue with Google
+                    </button>
+                    <button type="button" class="btn-social">
+                        <i class="fab fa-facebook" style="color: #1877F2;"></i> Continue with Facebook
+                    </button>
+                    <button type="button" class="btn-social">
+                        <i class="fab fa-discord" style="color: #5865F2;"></i> Continue with Discord
+                    </button>
+                </div>
+                
+                <div class="form-footer">
+                    Don't have an account? <a href="#" class="switch-to-signup">Sign Up</a>
+                </div>
+            </form>
+            
+            <!-- Signup Form -->
+            <form class="auth-form" id="signup-form">
+                <div class="form-group">
+                    <label class="form-label" for="signup-username">Username</label>
+                    <input type="text" id="signup-username" class="form-input" placeholder="Choose a username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="signup-email">Email Address</label>
+                    <input type="email" id="signup-email" class="form-input" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="signup-password">Password</label>
+                    <input type="password" id="signup-password" class="form-input" placeholder="Create a password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="signup-confirm">Confirm Password</label>
+                    <input type="password" id="signup-confirm" class="form-input" placeholder="Confirm your password" required>
+                </div>
+                
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="terms" required>
+                        <span>I agree to the <a href="#" style="color: var(--accent);">Terms of Service</a> and <a href="#" style="color: var(--accent);">Privacy Policy</a></span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+                
+                <div class="auth-divider">
+                    <span>Or sign up with</span>
+                </div>
+                
+                <div class="social-auth">
+                    <button type="button" class="btn-social">
+                        <i class="fab fa-google" style="color: #DB4437;"></i> Continue with Google
+                    </button>
+                    <button type="button" class="btn-social">
+                        <i class="fab fa-facebook" style="color: #1877F2;"></i> Continue with Facebook
+                    </button>
+                </div>
+                
+                <div class="form-footer">
+                    Already have an account? <a href="#" class="switch-to-login">Log In</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h2 class="animate__animated animate__fadeInUp">Feel The <span>GamePulse</span> Experience</h2>
+                    <p class="animate__animated animate__fadeInUp animate__delay-1s">Join over 10 million gamers in the most advanced gaming platform. Access 1500+ AAA titles, compete in global tournaments, and connect with the gaming community.</p>
+                    
+                    <div class="download-badges animate__animated animate__fadeInUp animate__delay-2s" id="download">
+                        <div class="download-badge">
+                            <div class="badge-icon">
+                                <i class="fab fa-windows"></i>
+                            </div>
+                            <div class="badge-text">
+                                <h4>Windows 10/11</h4>
+                                <p>Version 5.0 • 2.1 GB</p>
+                            </div>
+                        </div>
+                        
+                        <div class="download-badge">
+                            <div class="badge-icon">
+                                <i class="fab fa-android"></i>
+                            </div>
+                            <div class="badge-text">
+                                <h4>Android</h4>
+                                <p>Version 4.5 • 890 MB</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-stats animate__animated animate__fadeInUp animate__delay-3s">
+                        <div class="stat-item">
+                            <div class="stat-number">10.5M</div>
+                            <div class="stat-label">Active Gamers</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">1.5K</div>
+                            <div class="stat-label">Premium Games</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">$2.3M</div>
+                            <div class="stat-label">Tournament Prizes</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero-visual animate__animated animate__fadeIn animate__delay-1s">
+                    <div class="platform-visual">
+                        <div class="screen">
+                            <div class="screen-content">
+                                <div class="game-mini-card">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span style="font-weight: 700; color: var(--accent);">Cyberpunk 2077</span>
+                                        <span style="color: var(--accent); font-size: 12px; background: rgba(0,255,157,0.2); padding: 4px 12px; border-radius: 20px;">● ONLINE</span>
+                                    </div>
+                                    <div style="font-size: 14px; color: rgba(255,255,255,0.7); margin-top: 8px;">Playing now: 42,581 players</div>
+                                </div>
+                                <div class="game-mini-card">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span style="font-weight: 700; color: var(--accent);">Valorant</span>
+                                        <span style="color: var(--warning); font-weight: 700;">87%</span>
+                                    </div>
+                                    <div style="font-size: 14px; color: rgba(255,255,255,0.7); margin-top: 8px;">User rating: 4.7/5.0</div>
+                                </div>
+                                <div class="game-mini-card">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span style="font-weight: 700; color: var(--accent);">Elden Ring</span>
+                                        <span style="color: var(--primary); font-weight: 700;">▼ 2.4 GB</span>
+                                    </div>
+                                    <div style="font-size: 14px; color: rgba(255,255,255,0.7); margin-top: 8px;">Downloading: 65% complete</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin-top: 30px;">
+                            <a href="#download" class="btn btn-primary" style="padding: 18px 45px; font-size: 18px;">
+                                <i class="fas fa-rocket"></i> Launch GamePulse
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section id="games">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Premium Game Library</h2>
+                <p class="section-subtitle">Access thousands of games across all genres. From AAA titles to indie gems, we have something for every gamer.</p>
+            </div>
+            
+            <div class="games-filter">
+                <button class="filter-btn active" data-filter="all">All Games</button>
+                <button class="filter-btn" data-filter="action">Action</button>
+                <button class="filter-btn" data-filter="rpg">RPG</button>
+                <button class="filter-btn" data-filter="strategy">Strategy</button>
+                <button class="filter-btn" data-filter="sports">Sports</button>
+                <button class="filter-btn" data-filter="indie">Indie</button>
+            </div>
+            
+            <div class="games-grid">
+                <!-- Game 1 -->
+                <div class="game-card" data-category="action">
+                    <div class="game-card-badge">NEW</div>
+                    <div class="game-card-header">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Cyber Legends" class="game-card-img">
+                    </div>
+                    <div class="game-card-body">
+                        <div class="game-card-title">
+                            <h3>Cyber Legends</h3>
+                            <div class="game-card-price">$59.99</div>
+                        </div>
+                        <p class="game-card-desc">Futuristic open-world RPG with advanced combat and deep narrative.</p>
+                        <div class="game-card-tags">
+                            <span class="game-tag">Action</span>
+                            <span class="game-tag">RPG</span>
+                            <span class="game-tag">Open World</span>
+                        </div>
+                        <div class="game-card-footer">
+                            <div class="game-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>4.7</span>
+                            </div>
+                            <a href="#" class="btn-game">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game 2 -->
+                <div class="game-card" data-category="rpg">
+                    <div class="game-card-badge">HOT</div>
+                    <div class="game-card-header">
+                        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Fantasy Realms" class="game-card-img">
+                    </div>
+                    <div class="game-card-body">
+                        <div class="game-card-title">
+                            <h3>Fantasy Realms</h3>
+                            <div class="game-card-price">$49.99</div>
+                        </div>
+                        <p class="game-card-desc">Epic fantasy adventure with massive world and character customization.</p>
+                        <div class="game-card-tags">
+                            <span class="game-tag">RPG</span>
+                            <span class="game-tag">Fantasy</span>
+                            <span class="game-tag">Multiplayer</span>
+                        </div>
+                        <div class="game-card-footer">
+                            <div class="game-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>5.0</span>
+                            </div>
+                            <a href="#" class="btn-game">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game 3 -->
+                <div class="game-card" data-category="sports">
+                    <div class="game-card-header">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Speed Racers" class="game-card-img">
+                    </div>
+                    <div class="game-card-body">
+                        <div class="game-card-title">
+                            <h3>Speed Racers X</h3>
+                            <div class="game-card-price">$39.99</div>
+                        </div>
+                        <p class="game-card-desc">High-speed racing with realistic physics and car customization.</p>
+                        <div class="game-card-tags">
+                            <span class="game-tag">Racing</span>
+                            <span class="game-tag">Sports</span>
+                            <span class="game-tag">Simulation</span>
+                        </div>
+                        <div class="game-card-footer">
+                            <div class="game-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>4.2</span>
+                            </div>
+                            <a href="#" class="btn-game">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 50px;">
+                <a href="#" class="btn btn-secondary">
+                    <i class="fas fa-gamepad"></i> Browse All Games
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Why GamePulse?</h2>
+                <p class="section-subtitle">Experience gaming like never before with our advanced platform features.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Cloud Gaming</h3>
+                    <p class="feature-desc">Play any game instantly without downloads. Stream in 4K with ultra-low latency.</p>
+                    <a href="#" class="feature-link">
+                        Learn More <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="feature-title">Social Hub</h3>
+                    <p class="feature-desc">Connect with friends, join clubs, and share your gaming achievements.</p>
+                    <a href="#" class="feature-link">
+                        Explore Community <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3 class="feature-title">Tournaments</h3>
+                    <p class="feature-desc">Compete in daily tournaments with cash prizes and exclusive rewards.</p>
+                    <a href="#" class="feature-link">
+                        View Tournaments <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">Performance Stats</h3>
+                    <p class="feature-desc">Detailed analytics of your gameplay with improvement suggestions.</p>
+                    <a href="#" class="feature-link">
+                        See Analytics <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Cross-Platform</h3>
+                    <p class="feature-desc">Play on any device and continue where you left off. Full cross-save support.</p>
+                    <a href="#" class="feature-link">
+                        Download Apps <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Secure Platform</h3>
+                    <p class="feature-desc">Military-grade encryption and anti-cheat protection for fair play.</p>
+                    <a href="#" class="feature-link">
+                        Security Details <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <div class="logo">
+                            <div class="logo-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="logo-text">
+                                <h1>GamePulse</h1>
+                                <span>ULTIMATE GAMING</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="footer-desc">The ultimate gaming platform for competitive and casual gamers worldwide. Join millions of players today and experience gaming like never before.</p>
+                    <div class="social-links">
+                        <a href="https://youtube.com" target="_blank" class="social-link youtube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" class="social-link instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://facebook.com" target="_blank" class="social-link facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://tiktok.com" target="_blank" class="social-link tiktok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="https://twitter.com" target="_blank" class="social-link twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://discord.com" target="_blank" class="social-link discord">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Platform</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Download for PC</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Download for Android</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Download for iOS</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Cloud Gaming</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> System Requirements</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Games</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Browse Games</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> New Releases</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Top Sellers</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Free Games</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Coming Soon</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Help Center</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Refund Policy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Status</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Careers</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Press</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Developers</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Partners</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 GamePulse. All rights reserved. All trademarks are property of their respective owners.</p>
+                <p style="margin-top: 10px; font-size: 0.8rem;">
+                    <a href="#" style="color: rgba(255,255,255,0.5); margin: 0 15px;">Privacy Policy</a> | 
+                    <a href="#" style="color: rgba(255,255,255,0.5); margin: 0 15px;">Terms of Service</a> | 
+                    <a href="#" style="color: rgba(255,255,255,0.5); margin: 0 15px;">Cookie Policy</a> | 
+                    <a href="#" style="color: rgba(255,255,255,0.5); margin: 0 15px;">Legal</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#home" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Preloader
+        window.addEventListener('load', function() {
+            const preloader = document.querySelector('.preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }, 1500);
+        });
+
+        // Particles.js Background
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 100, density: { enable: true, value_area: 800 } },
+                    color: { value: "#FF4655" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.6, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#00FF9D",
+                        opacity: 0.2,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "repulse" },
+                        onclick: { enable: true, mode: "push" }
+                    }
+                }
+            });
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navMenu.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('#nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // Header scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            
+            // Back to top button
+            const backToTop = document.getElementById('backToTop');
+            if (window.scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // Authentication Modal
+        const authModal = document.getElementById('auth-modal');
+        const openLoginBtn = document.getElementById('open-login');
+        const openSignupBtn = document.getElementById('open-signup');
+        const closeModalBtn = document.getElementById('close-modal');
+        const authTabs = document.querySelectorAll('.auth-tab');
+        const authForms = document.querySelectorAll('.auth-form');
+        const switchToLoginLinks = document.querySelectorAll('.switch-to-login');
+        const switchToSignupLinks = document.querySelectorAll('.switch-to-signup');
+        
+        // Open login modal
+        openLoginBtn.addEventListener('click', () => {
+            authModal.classList.add('active');
+            switchAuthTab('login');
+        });
+        
+        // Open signup modal
+        openSignupBtn.addEventListener('click', () => {
+            authModal.classList.add('active');
+            switchAuthTab('signup');
+        });
+        
+        // Close modal
+        closeModalBtn.addEventListener('click', () => {
+            authModal.classList.remove('active');
+        });
+        
+        // Close modal when clicking outside
+        authModal.addEventListener('click', (e) => {
+            if (e.target === authModal) {
+                authModal.classList.remove('active');
+            }
+        });
+        
+        // Switch between login/signup tabs
+        authTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.getAttribute('data-tab');
+                switchAuthTab(tabName);
+            });
+        });
+        
+        // Switch to login from links
+        switchToLoginLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchAuthTab('login');
+            });
+        });
+        
+        // Switch to signup from links
+        switchToSignupLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchAuthTab('signup');
+            });
+        });
+        
+        // Function to switch auth tabs
+        function switchAuthTab(tabName) {
+            // Update active tab
+            authTabs.forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.getAttribute('data-tab') === tabName) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            // Update active form
+            authForms.forEach(form => {
+                form.classList.remove('active');
+                if (form.id === `${tabName}-form`) {
+                    form.classList.add('active');
+                }
+            });
+        }
+        
+        // Handle form submissions
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Simulate login
+            if (email && password) {
+                alert(`Welcome back to GamePulse! You've successfully logged in with ${email}`);
+                authModal.classList.remove('active');
+                loginForm.reset();
+                
+                // Update header to show logged in state
+                openLoginBtn.innerHTML = '<i class="fas fa-user"></i> Profile';
+                openSignupBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
+                
+                // Change login button behavior
+                openLoginBtn.removeEventListener('click', openLoginHandler);
+                openLoginBtn.addEventListener('click', () => {
+                    alert('Redirecting to your GamePulse profile...');
+                });
+                
+                // Change signup button to logout
+                openSignupBtn.removeEventListener('click', openSignupHandler);
+                openSignupBtn.addEventListener('click', () => {
+                    if (confirm('Are you sure you want to log out?')) {
+                        alert('You have been logged out successfully.');
+                        openLoginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Log In';
+                        openSignupBtn.innerHTML = '<i class="fas fa-user-plus"></i> Sign Up';
+                        
+                        // Restore original event listeners
+                        openLoginBtn.addEventListener('click', openLoginHandler);
+                        openSignupBtn.addEventListener('click', openSignupHandler);
+                    }
+                });
+            } else {
+                alert('Please fill in all fields.');
+            }
+        });
+        
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('signup-username').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm').value;
+            const terms = document.getElementById('terms').checked;
+            
+            // Validate form
+            if (!username || !email || !password || !confirmPassword) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match.');
+                return;
+            }
+            
+            if (!terms) {
+                alert('You must agree to the Terms of Service and Privacy Policy.');
+                return;
+            }
+            
+            // Simulate signup
+            alert(`Welcome ${username}! Your GamePulse account has been created successfully. Check your email at ${email} to verify your account.`);
+            authModal.classList.remove('active');
+            signupForm.reset();
+            
+            // Update header to show logged in state
+            openLoginBtn.innerHTML = `<i class="fas fa-user"></i> ${username}`;
+            openSignupBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
+            
+            // Store user data in localStorage (simulated)
+            localStorage.setItem('gamepulse_user', JSON.stringify({
+                username: username,
+                email: email,
+                loggedIn: true
+            }));
+        });
+        
+        // Store original event listeners
+        const openLoginHandler = () => {
+            authModal.classList.add('active');
+            switchAuthTab('login');
+        };
+        
+        const openSignupHandler = () => {
+            authModal.classList.add('active');
+            switchAuthTab('signup');
+        };
+        
+        // Check if user is already logged in (from localStorage)
+        const storedUser = localStorage.getItem('gamepulse_user');
+        if (storedUser) {
+            const user = JSON.parse(storedUser);
+            if (user.loggedIn) {
+                openLoginBtn.innerHTML = `<i class="fas fa-user"></i> ${user.username}`;
+                openSignupBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
+            }
+        }
+
+        // Game filtering
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const gameCards = document.querySelectorAll('.game-card');
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                const filter = this.getAttribute('data-filter');
+                
+                gameCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 100);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        // Download badge interactions
+        document.querySelectorAll('.download-badge').forEach(badge => {
+            badge.addEventListener('click', function() {
+                const platform = this.querySelector('h4').textContent;
+                alert(`Starting download for ${platform}...\n(Note: This is a demo. In a real website, the download would begin.)`);
+                
+                // Add visual feedback
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        });
+
+        // Game card interaction
+        document.querySelectorAll('.btn-game').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const gameTitle = this.closest('.game-card').querySelector('h3').textContent;
+                alert(`Opening details for "${gameTitle}"...\n(Note: This is a demo. In a real website, this would open the game details page.)`);
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                if(this.getAttribute('href') === '#') return;
+                
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements to animate
+        document.querySelectorAll('.game-card, .feature-card, .stat-card, .download-badge').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
